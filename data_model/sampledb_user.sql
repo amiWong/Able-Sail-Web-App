@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `infosheet`;
 
 CREATE TABLE `user` 
 (
-   `ID` int(11) NOT NULL,
+   `ID` int NOT NULL,
    `username` varchar(16) NOT NULL,
    `email` varchar(255) NOT NULL,
    `password` varchar(255) NOT NULL,
@@ -11,9 +11,10 @@ CREATE TABLE `user`
    UNIQUE KEY `ID_UNIQUE` (`ID`)
 );
 
+
 CREATE TABLE `infosheet`
 (
-   `ID` int NOT NULL UNIQUE,
+   `ID` int NOT NULL,
    `first_name` varchar(255),
    `last_name` varchar(255),
    `address` varchar(255),
