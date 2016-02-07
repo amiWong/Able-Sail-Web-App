@@ -150,5 +150,3 @@ private function read(){
 }
 
 ?>
-
-
