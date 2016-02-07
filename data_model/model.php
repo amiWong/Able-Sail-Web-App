@@ -46,7 +46,22 @@ class Database_Reader
       return $data->fetch();
    }
    
-
+   // Takes ID of user info you want to change, the name of the column you want to change in infosheet table, 
+   // as well as the value you'd like to change it to, then makes those changes
+   public function update_registration($ID, $to_change, $new_value)
+   {
+   		try {
+   		$this->dbh->query("UPDATE `infosheet` SET `$to_change` = " ."\"".$new_value."\" WHERE `ID` = $ID" );
+   		}
+   		catch (PDOexception $e){
+   			if ($e ->errorInfo[1] == 1054) {
+   				echo $column. "is not a valid column!";
+   			}
+   			else {
+   				echo $e;
+   			}
+   		}  		
+   }
 
    public function valid_user($username, $pw)
    {
@@ -57,7 +72,7 @@ class Database_Reader
       
       if (count($users) == 0){
          //No users available
-         return 0;
+         return FALSE;
       } 
       elseif (count($users) == 1) {
          foreach ($users as $i){
@@ -66,13 +81,12 @@ class Database_Reader
       } else{
          // fatal error
          echo "Database error: too many users with same username";
-         return 0;
+         return FALSE;
       }
    }
-<<<<<<< HEAD
 
 //helper method to read database
-public function read(){
+private function read(){
       $a = $this->dbh->query("SELECT * FROM `infosheet`");
       foreach ($a as $b){
          for($i = 0; $i < count($b); $i += 1){
@@ -84,49 +98,6 @@ public function read(){
 }
 
 
-=======
-   
-   public function new_user($username, $email, $password)
-   {
-      try{
-         $users = $this->dbh->exec(
-            "INSERT INTO `user` VALUES(
-               0, 
-               '".$username."',
-               '".$email."',
-               '".$password."'
-            )"
-         );
-      } catch (PDOException $e){
-         if ($e->errorInfo[1] == 1062){
-            echo "Username or email already exists in DB \n";
-         } else { // other exception
-            echo $e;
-         }
-      }
-   }
-   
-   public function delete_user($username)
-   {
-      try{
-         $this->dbh->query(" DELETE FROM `user` WHERE `username`='".$username."' ");
-      } catch (PDOException $e){
-         echo $e;
-      }
-   }
-   
-   public function change_email($username, $new_email)
-   {
-      $this->dbh->query(
-      "UPDATE `user` SET `email`='".$new_email."' 
-         WHERE `username`='".$username."' 
-      ");
-   }
-}
-
-
-
->>>>>>> Propheis/master
 ?>
 
 
