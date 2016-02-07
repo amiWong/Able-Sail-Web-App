@@ -90,18 +90,6 @@ class Database_Reader
          return FALSE;
       }
    }
-
-//helper method to read database
-private function read(){
-      $a = $this->dbh->query("SELECT * FROM `infosheet`");
-      foreach ($a as $b){
-         for($i = 0; $i < count($b); $i += 1){
-            echo $b[$i] . " ";
-         }
-         echo "\n";
-      }
-   }
-
    
    public function delete_user($username)
    {
