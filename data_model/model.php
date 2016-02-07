@@ -5,6 +5,7 @@ class Database_Reader
 {
 	private $dbh;
 
+	//connects to database
 	function __construct() {
 		try {
       		$this->dbh = new PDO("mysql:host=kevinzuern.com;dbname=propheis_ablesail", "propheis_able", "Ablesail") or die("Couldn't connect to the database.");
@@ -17,9 +18,10 @@ class Database_Reader
    		}
 
 	}
+	//takes username as parameter, returns true if the username exists in database and false if it does not
 	public function valid_username($username) {
 		$num_user = $this->dbh->query("SELECT * FROM `user` WHERE `username`='".$username."'");
-		$result = $num_user->fetch(PDO::FETCH_ASSOC);
+		$result = $num_user->fetch();
 		
 		if(!$result) {
 			return FALSE;
@@ -44,6 +46,8 @@ class Database_Reader
       return $data->fetch();
    }
    
+
+
    public function valid_user($username, $pw)
    {
       $users = $this->dbh->query("SELECT `password` FROM `user` 
@@ -65,6 +69,20 @@ class Database_Reader
          return FALSE;
       }
    }
+
+//helper method to read database
+public function read(){
+      $a = $this->dbh->query("SELECT * FROM `infosheet`");
+      foreach ($a as $b){
+         for($i = 0; $i < count($b); $i += 1){
+            echo $b[$i] . " ";
+         }
+         echo "\n";
+      }
+   }
 }
 
+
 ?>
+
+
