@@ -6,7 +6,7 @@
 		$password = ($_POST["password"]);
 		$cPassword = ($_POST["cPassword"]);	
 		// Include helper functions
-		include("./model.php");
+		include("./data_model/model.php");
 
 		$model = new Database_Reader;
 
@@ -16,6 +16,7 @@
 		};
 	};
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
 </head>
 <body>
 	<h1>Create Account</h1>
-	<form action="createAccount.php" method="post" id="form" onsubmit="return finalValidate('username', 'results')">
+	<form action="./createAccount.php" method="post" id="form" onsubmit="return finalValidate('username', 'results')">
 		<table>
 			<tr>
 				<td>Username</td>

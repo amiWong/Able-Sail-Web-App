@@ -55,12 +55,18 @@ class Database_Reader
    		}
    		catch (PDOexception $e){
    			if ($e ->errorInfo[1] == 1054) {
-   				echo $column. "is not a valid column!";
+   				echo $column. "is not a valid column!"; //if column name does not exist, returns specific error
    			}
    			else {
-   				echo $e;
+   				echo $e; //otherwise, echoes error message
    			}
    		}  		
+   }
+
+   public function get_all_registrations() {
+      $query = "SELECT * FROM `infosheet`";
+      $data = $this->dbh->query($query);
+      return $data->fetchAll();
    }
 
    public function valid_user($username, $pw)
@@ -95,8 +101,53 @@ private function read(){
          echo "\n";
       }
    }
-}
 
+   
+   public function delete_user($username)
+   {
+      try{
+         $this->dbh->query(" DELETE FROM `user` WHERE `username`='".$username."' ");
+      } catch (PDOException $e){
+         echo $e;
+      }
+   }
+   
+   public function change_email($username, $new_email)
+   {
+      $this->dbh->query(
+      "UPDATE `user` SET `email`='".$new_email."' 
+         WHERE `username`='".$username."' 
+      ");
+   }
+   
+   /* reads evrything from the database, and prints it*/
+   public function read_db($db){
+      $a = $this->dbh->query("SELECT * FROM `".$db."` ");
+      foreach ($a as $b){
+         for($i = 0; $i < count($b); $i += 1){
+            echo $b[$i] . " ";
+         }
+         echo "\n";
+      }
+   }
+   
+   /*change a specific column for a given row by their username
+   Do not include the `` characters when inputting data*/
+   public function change_user_column($column, $new_data, $username)
+   {
+      try{
+         $this->dbh->query(
+         "UPDATE `user` SET `".$column."`='".$new_data."'
+            WHERE `username` = '".$username."' 
+         "); 
+      } catch (PDOexception $e){
+         if ($e ->errorInfo[1] == 1054)
+            echo $column." is not a valid column"."\n";
+         else
+            echo $e;
+      }
+   }
+}
 
 ?>
 
